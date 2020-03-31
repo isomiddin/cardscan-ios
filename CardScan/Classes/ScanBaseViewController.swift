@@ -355,7 +355,7 @@ public protocol TestingImageDataSource: AnyObject {
     }
     
     func toCardImage(squareCardImage: CGImage) -> CGImage {
-        let height = CGFloat(squareCardImage.width) * 302.0 / 480.0
+        let height = CGFloat(squareCardImage.width) * 375.0 / 600.0
         let dh = (CGFloat(squareCardImage.height) - height) * 0.5
         let cardRect = CGRect(x: 0.0, y: dh, width: CGFloat(squareCardImage.width), height: height)
         
