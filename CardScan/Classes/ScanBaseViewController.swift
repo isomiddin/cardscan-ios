@@ -42,7 +42,7 @@ public protocol TestingImageDataSource: AnyObject {
     private var regionOfInterestLabelFrame: CGRect?
     
     var videoFeed = VideoFeed()
-    private let machineLearningSemaphore = DispatchSemaphore(value: 1)
+    private let machineLearningSemaphore = DispatchSemaphore(value: 2)
     
     var currentImageRect: CGRect?
     var scannedCardImage: UIImage?

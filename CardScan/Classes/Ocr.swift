@@ -14,6 +14,8 @@ public class Ocr {
         if #available(iOS 11.2, *) {
             let ssdOcr = SSDOcrDetect()
             ssdOcr.warmUp()
+            //let ocr = FindFourOcr()
+            //ocr.warmUp()
         }
     }
     
@@ -95,6 +97,7 @@ public class Ocr {
         var findFour = FindFourOcr()
         var ssdOcr = SSDOcrDetect()
         var startTime = CFAbsoluteTimeGetCurrent()
+        //var number = findFour.predict(image: UIImage(cgImage: croppedCardImage))
         var number = ssdOcr.predict(image: UIImage(cgImage: croppedCardImage))
         var endTime = CFAbsoluteTimeGetCurrent() - startTime
         os_log("%@", type: .debug, "Full Forward Pass: \(endTime)")
