@@ -42,7 +42,10 @@ public protocol TestingImageDataSource: AnyObject {
     private var regionOfInterestLabelFrame: CGRect?
     
     var videoFeed = VideoFeed()
-    private let machineLearningSemaphore = DispatchSemaphore(value: 1)
+    // We set the value to two since there is a gpu and cpu
+    // while the ml prediction is running on the GPU, this will
+    // ensure the CPU also runs the next prediction in parallel
+    private let machineLearningSemaphore = DispatchSemaphore(value: 2)
     
     var currentImageRect: CGRect?
     var scannedCardImage: UIImage?
