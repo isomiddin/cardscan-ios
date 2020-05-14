@@ -124,7 +124,7 @@ public struct SsdDetect {
             return nil
         }
         let endTime = CFAbsoluteTimeGetCurrent() - startTime
-        os_log("%@", type: .debug, "Model Run without post-process time: \(endTime)")
+        //os_log("%@", type: .debug, "Model Run without post-process time: \(endTime)")
 
         return self.detectObjects(prediction: prediction, image: image)
     }

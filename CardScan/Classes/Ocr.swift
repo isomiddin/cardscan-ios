@@ -94,13 +94,18 @@ public class Ocr {
     
     @available(iOS 11.2, *)
     public func perform(croppedCardImage: CGImage, squareCardImage: CGImage?, fullCardImage: CGImage?, useCurrentFrameNumber: (String? , String) -> Bool = { _,_ in true } ) -> String? {
-        let ssdOcr = SSDOcrDetect()
+
         let uxModel = UXDetect()
+        var startTime = CFAbsoluteTimeGetCurrent()
         let _ = uxModel.predict(image: UIImage(cgImage: croppedCardImage))
-        let startTime = CFAbsoluteTimeGetCurrent()
+        var endTime = CFAbsoluteTimeGetCurrent() - startTime
+        os_log("%@", type: .debug, "Inference Time UX Model: \(endTime)")
+        
+        let ssdOcr = SSDOcrDetect()
+        startTime = CFAbsoluteTimeGetCurrent()
         var number = ssdOcr.predict(image: UIImage(cgImage: croppedCardImage))
-        let endTime = CFAbsoluteTimeGetCurrent() - startTime
-        os_log("%@", type: .debug, "Full Forward Pass: \(endTime)")
+        endTime = CFAbsoluteTimeGetCurrent() - startTime
+        os_log("%@", type: .debug, "Inference time DD OCR: \(endTime)")
         
         if let currentNumber = number {
             let errorCorrectedNumber = self.numbers.sorted { $0.1 > $1.1 }.map { $0.0 }.first

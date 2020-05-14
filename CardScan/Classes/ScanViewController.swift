@@ -274,7 +274,7 @@ public protocol MainLoopDelegate: class {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.setStrings()
         self.setUiCustomization()
         self.calledDelegate = false

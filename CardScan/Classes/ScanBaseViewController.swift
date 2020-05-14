@@ -3,7 +3,6 @@ import AVKit
 import VideoToolbox
 import Vision
 
-
 public protocol TestingImageDataSource: AnyObject {
     func nextSquareAndFullImage() -> (CGImage, CGImage)?
 }
@@ -307,6 +306,8 @@ public protocol TestingImageDataSource: AnyObject {
     override open func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         ScanBaseViewController.isAppearing = false
+        print("DEBUG:", "Total Frames for 20s duration: \(ocr.scanStats.scans)")
+        print("DEBUG:", "Frame Rate: \(ocr.scanStats.scans / 20)")
     }
     
     public func getScanStats() -> ScanStats {

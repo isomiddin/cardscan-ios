@@ -72,7 +72,7 @@ struct UXDetect {
             return nil
         }
         
-        let startTime = CFAbsoluteTimeGetCurrent()
+        //let startTime = CFAbsoluteTimeGetCurrent()
         let input = uxmodelInput(input1: pixelBuffer)
         
         guard let prediction = try? uxModel.prediction(input: input) else {
@@ -80,8 +80,8 @@ struct UXDetect {
             return nil
         }
         
-        let endTime = CFAbsoluteTimeGetCurrent() - startTime
-        os_log("%@", type: .debug, "Model Run without post-process time: \(endTime)")
+        //let endTime = CFAbsoluteTimeGetCurrent() - startTime
+        //os_log("%@", type: .debug, "Model Run without post-process time: \(endTime)")
         
         return "Success"
 
