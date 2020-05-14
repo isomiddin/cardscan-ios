@@ -14,6 +14,8 @@ public class Ocr {
         if #available(iOS 11.2, *) {
             let ssdOcr = SSDOcrDetect()
             ssdOcr.warmUp()
+            let uxModel = UXDetect()
+            uxModel.warmUp()
         }
     }
     
@@ -93,6 +95,8 @@ public class Ocr {
     @available(iOS 11.2, *)
     public func perform(croppedCardImage: CGImage, squareCardImage: CGImage?, fullCardImage: CGImage?, useCurrentFrameNumber: (String? , String) -> Bool = { _,_ in true } ) -> String? {
         let ssdOcr = SSDOcrDetect()
+        let uxModel = UXDetect()
+        let _ = uxModel.predict(image: UIImage(cgImage: croppedCardImage))
         let startTime = CFAbsoluteTimeGetCurrent()
         var number = ssdOcr.predict(image: UIImage(cgImage: croppedCardImage))
         let endTime = CFAbsoluteTimeGetCurrent() - startTime
