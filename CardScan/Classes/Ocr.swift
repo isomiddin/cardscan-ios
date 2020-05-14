@@ -14,8 +14,6 @@ public class Ocr {
         if #available(iOS 11.2, *) {
             let ssdOcr = SSDOcrDetect()
             ssdOcr.warmUp()
-            //let ocr = FindFourOcr()
-            //ocr.warmUp()
         }
     }
     
@@ -94,12 +92,10 @@ public class Ocr {
     
     @available(iOS 11.2, *)
     public func perform(croppedCardImage: CGImage, squareCardImage: CGImage?, fullCardImage: CGImage?, useCurrentFrameNumber: (String? , String) -> Bool = { _,_ in true } ) -> String? {
-        var findFour = FindFourOcr()
-        var ssdOcr = SSDOcrDetect()
-        var startTime = CFAbsoluteTimeGetCurrent()
-        //var number = findFour.predict(image: UIImage(cgImage: croppedCardImage))
+        let ssdOcr = SSDOcrDetect()
+        let startTime = CFAbsoluteTimeGetCurrent()
         var number = ssdOcr.predict(image: UIImage(cgImage: croppedCardImage))
-        var endTime = CFAbsoluteTimeGetCurrent() - startTime
+        let endTime = CFAbsoluteTimeGetCurrent() - startTime
         os_log("%@", type: .debug, "Full Forward Pass: \(endTime)")
         
         if let currentNumber = number {
@@ -109,31 +105,11 @@ public class Ocr {
             }
         }
         
-        self.expiry = findFour.expiry
-        
         self.scanStats.scans += 1
-        self.scanStats.lastFlatBoxes = findFour.lastDetectedBoxes
-        self.scanStats.expiryBoxes = findFour.expiryBoxes
-        
-        if findFour.cardDetected ?? false {
-            self.scanStats.cardsDetected += 1
-        }
         if let squareCardImage = squareCardImage, let fullCardImage = fullCardImage {
             let croppedCardSize = CGSize(width: croppedCardImage.width, height: croppedCardImage.height)
             
             if let number = number {
-                // Note: the onScanComplete method is called in ScanBaseViewController
-                let xmin = findFour.predictedBoxes.map { $0.minX }.min() ?? 0.0
-                let xmax = findFour.predictedBoxes.map { $0.maxX }.max() ?? 0.0
-                let ymin = findFour.predictedBoxes.map { $0.minY }.min() ?? 0.0
-                let ymax = findFour.predictedBoxes.map { $0.maxY }.max() ?? 0.0
-                let numberBoundingBox = CGRect(x: xmin, y: ymin, width: (xmax - xmin), height: (ymax - ymin))
-                       
-            
-                self.scanEventsDelegate?.onNumberRecognized(number: number, expiry: findFour.expiry, numberBoundingBox: numberBoundingBox, expiryBoundingBox: findFour.expiryBoxes.first, croppedCardSize: croppedCardSize, squareCardImage: squareCardImage, fullCardImage: fullCardImage)
-        
-                self.scanStats.algorithm = findFour.algorithm
-                self.updateStats(model: findFour.modelString, boxes: findFour.predictedBoxes, image: croppedCardImage, number: number, cvvBoxes: findFour.cvvBoxes)
                 return number
             }
             
