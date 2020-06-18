@@ -267,7 +267,7 @@ import UIKit
             @unknown default:
                 assertionFailure("UIAlertAction case not handled")
             }}))
-        alert.addAction(UIAlertAction(title: "", style: .default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: openSettingsTitle, style: .default, handler: { (action) in
             guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                 return
             }
