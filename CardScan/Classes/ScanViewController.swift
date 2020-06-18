@@ -41,6 +41,7 @@ import UIKit
 // might be incomplete.
 @objc public protocol FullScanStringsDataSource: ScanStringsDataSource {
     @objc func denyPermissionTitle() -> String
+    @objc func openSettingsTitle() -> String
     @objc func denyPermissionMessage() -> String
     @objc func denyPermissionButton() -> String
 }
@@ -129,6 +130,7 @@ import UIKit
     @IBOutlet weak var cornerView: CornerView!
     var cornerBorderColor = UIColor.green.cgColor
     var denyPermissionTitle = "Need camera access"
+    var openSettingsTitle = "Open settings"
     var denyPermissionMessage = "Please enable camera access in your settings to scan your card"
     var denyPermissionButtonText = "OK"
     
@@ -204,6 +206,7 @@ import UIKit
         
         self.denyPermissionMessage = fullDataSource.denyPermissionMessage()
         self.denyPermissionTitle = fullDataSource.denyPermissionTitle()
+        self.openSettingsTitle = fullDataSource.openSettingsTitle()
         self.denyPermissionButtonText = fullDataSource.denyPermissionButton()
     }
     
@@ -264,6 +267,19 @@ import UIKit
             @unknown default:
                 assertionFailure("UIAlertAction case not handled")
             }}))
+        alert.addAction(UIAlertAction(title: "", style: .default, handler: { (action) in
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                return
+            }
+
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                        print("Settings opened: \(success)") // Prints true
+                    })
+                }
+            }
+        }))
         self.present(alert, animated: true, completion: nil)
     }
     
