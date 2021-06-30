@@ -20,7 +20,7 @@ public struct CreditCardUtils {
     private static let prefixesUnionPay = ["62"]
     private static let prefixesVisa = ["4"]
     private static let prefixesUzcard = ["8600"]
-    private static let prefixesHumo = ["9860,9987"]
+    private static let prefixesHumo = ["9860","9987"]
     
     /**
         Checks if the card number is valid.
